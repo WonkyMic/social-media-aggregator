@@ -19,7 +19,7 @@ pub struct TwitterUser {
 }
 
 // Followers Lookup
-#[derive(Debug, Deserialize)] pub struct FollowersResponse { data: Vec<TwitterUser> } 
+#[derive(Debug, Deserialize)] pub struct FollowResponse { data: Vec<TwitterUser> } 
 
 pub async fn find_user(name: &str) -> Result<TwitterUser, reqwest::Error> {    
     let full_url = format!("{}/users/by/username/{}", *TWITTER_URL, name);
@@ -34,15 +34,28 @@ pub async fn find_user(name: &str) -> Result<TwitterUser, reqwest::Error> {
     Ok(resp.data)
 }
 
-pub async fn get_followers(id: &str) -> Result<FollowersResponse, reqwest::Error> {
+pub async fn get_followers(id: &str) -> Result<FollowResponse, reqwest::Error> {
     let full_url = format!("{}/users/{}/followers", *TWITTER_URL, &id);
 
-        let client = build_client().unwrap();
-        let resp = client.get(full_url)
-            .send()
-            .await?
-            .json::<FollowersResponse>()
-            .await?;
+    let client = build_client().unwrap();
+    let resp = client.get(full_url)
+        .send()
+        .await?
+        .json::<FollowResponse>()
+        .await?;
+
+    Ok(resp)
+}
+
+pub async fn get_following(id: &str) -> Result<FollowResponse, reqwest::Error> {
+    let full_url = format!("{}/users/{}/following", *TWITTER_URL, id);
+
+    let client = build_client().unwrap();
+    let resp = client.get(full_url)
+        .send()
+        .await?
+        .json::<FollowResponse>()
+        .await?;
 
     Ok(resp)
 }
