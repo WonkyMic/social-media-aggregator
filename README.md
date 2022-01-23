@@ -11,6 +11,30 @@ Thank you for visiting!
 - [ ] YouTube
 - [ ] TikTok
 
+## Design
+### Project Requests
+- Socials
+  - Twitter
+  - Instagram
+  - Twitch
+  - YouTube
+  - TikTok
+- Tech
+  - Language/Runtime :: no preference
+  - Input :: public apis
+  - Store :: [Airtable](https://www.airtable.com/)
+
+### Aspirations
+- Socials
+  - Reddit
+  - Git
+- Tech
+  - Language/Runtime :: Rust/WebAssembly
+  - Store :: Event abstraction to allow multiple impls
+    - Postgres
+	- Apache Geode/Ignite
+	- Redis
+
 ## Project Resources
 - [Twitter API](https://developer.twitter.com/en/docs/twitter-api)
 

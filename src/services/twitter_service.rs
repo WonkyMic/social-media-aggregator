@@ -1,3 +1,8 @@
+use 
+
 pub async fn get_user_content(){
-    // TODO
+    // GET - Twitter ID
+    // GET - Followers
+    // ------- Check in application cache
+    // ------- Client call to api.twitter.com
 }
