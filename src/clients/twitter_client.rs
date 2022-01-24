@@ -34,7 +34,7 @@ pub async fn find_user(name: &str) -> Result<TwitterUser, reqwest::Error> {
     Ok(resp.data)
 }
 
-pub async fn get_followers(id: &str) -> Result<FollowResponse, reqwest::Error> {
+pub async fn get_followers(id: &str) -> Result<Vec<TwitterUser>, reqwest::Error> {
     let full_url = format!("{}/users/{}/followers", *TWITTER_URL, &id);
 
     let client = build_client().unwrap();
@@ -44,10 +44,10 @@ pub async fn get_followers(id: &str) -> Result<FollowResponse, reqwest::Error> {
         .json::<FollowResponse>()
         .await?;
 
-    Ok(resp)
+    Ok(resp.data)
 }
 
-pub async fn get_following(id: &str) -> Result<FollowResponse, reqwest::Error> {
+pub async fn get_following(id: &str) -> Result<Vec<TwitterUser>, reqwest::Error> {
     let full_url = format!("{}/users/{}/following", *TWITTER_URL, id);
 
     let client = build_client().unwrap();
@@ -57,7 +57,7 @@ pub async fn get_following(id: &str) -> Result<FollowResponse, reqwest::Error> {
         .json::<FollowResponse>()
         .await?;
 
-    Ok(resp)
+    Ok(resp.data)
 }
 
 fn build_client() -> Result<reqwest::Client, reqwest::Error> {
