@@ -19,7 +19,28 @@ pub struct TwitterUser {
 }
 
 // Followers Lookup
-#[derive(Debug, Deserialize)] pub struct FollowResponse { data: Vec<TwitterUser> } 
+#[derive(Debug, Deserialize)] struct FollowResponse { data: Vec<TwitterUser> } 
+
+// Tweets
+#[derive(Debug, Deserialize)] 
+struct TweetResponse { 
+    data: Vec<Tweet>,
+    meta: TweetLookupMetadata
+}
+
+#[derive(Debug, Deserialize)]
+pub struct Tweet {
+    id: String,
+    text: String
+}
+
+#[derive(Debug, Deserialize)]
+struct TweetLookupMetadata {
+    oldest_id: String,
+    newest_id: String,
+    result_count: u8,
+    next_token: String
+}
 
 pub async fn find_user(name: &str) -> Result<TwitterUser, reqwest::Error> {    
     let full_url = format!("{}/users/by/username/{}", *TWITTER_URL, name);
@@ -59,6 +80,21 @@ pub async fn get_following(id: &str) -> Result<Vec<TwitterUser>, reqwest::Error>
 
     Ok(resp.data)
 }
+
+
+pub async fn get_recent_tweets(id: &str) -> Result<Vec<Tweet>, reqwest::Error> {
+    let full_url = format!("{}/users/{}/tweets", *TWITTER_URL, id);
+
+    let client = build_client().unwrap();
+    let resp = client.get(full_url)
+        .send()
+        .await?
+        .json::<TweetResponse>()
+        .await?;
+
+    Ok(resp.data)
+}
+
 
 fn build_client() -> Result<reqwest::Client, reqwest::Error> {
     let bearer = format!("Bearer {}", *TWITTER_BEARER);
