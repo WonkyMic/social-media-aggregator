@@ -5,6 +5,7 @@ extern crate serde;
 extern crate serde_json;
 
 mod clients;
+mod data;
 mod services;
 
 #[tokio::main]
@@ -14,7 +15,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     // Twitter
     let twitter_profile = services::twitter_service::get_user_content("ThisWeekInRust")
         .await.expect("Error attempting to generate Twitter proflie.");
-    println!("Twitter Profile = {:?}", twitter_profile);
+    //println!("Twitter Profile = {:?}", twitter_profile);
     
     Ok(())
 }
