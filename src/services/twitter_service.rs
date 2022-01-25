@@ -1,7 +1,6 @@
 use std::io::Error;
 use crate::clients::airtable_client;
 use crate::clients::twitter_client;
-use crate::data::airtable;
 use crate::data::twitter;
 
 #[derive(Debug)]
@@ -24,9 +23,7 @@ pub async fn get_user_content(name: &str) -> Result<(), Error> {
         .await.expect(format!("Failed to get_following for username={}", &user.username).as_str());
     
     let recent = twitter_client::get_recent_tweets(&user.id)
-        .await.expect(format!("Failed to get_recent_tweets for username={}", &user.username).as_str());
-    
-    // POST to airtable 
+        .await.expect(format!("Failed to get_recent_tweets for username={}", &user.username).as_str()); 
     
     let save_user = airtable_client::create_user(user).await.expect("Failed to create_user");
 

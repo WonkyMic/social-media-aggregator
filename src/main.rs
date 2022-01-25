@@ -15,7 +15,6 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     // Twitter
     let twitter_profile = services::twitter_service::get_user_content("ThisWeekInRust")
         .await.expect("Error attempting to generate Twitter proflie.");
-    //println!("Twitter Profile = {:?}", twitter_profile);
     
     Ok(())
 }

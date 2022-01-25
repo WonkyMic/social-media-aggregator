@@ -1,4 +1,3 @@
-use lazy_static::lazy_static;
 use crate::data::airtable;
 use crate::data::twitter;
 
@@ -15,16 +14,13 @@ pub async fn find_user(name: &str) -> Result<twitter::TwitterUser, reqwest::Erro
     Ok(resp.data)
 }
 
-pub async fn create_user(user: twitter::TwitterUser) -> Result<(), reqwest::Error> {
+pub async fn create_user(user: twitter::TwitterUser) -> Result<(airtable::CreateResponse), reqwest::Error> {
 
-    let fields = vec![airtable::Fields{ id: user.id, name: user.name, username: user.username }];
+    let fields = airtable::Fields{ id: user.id, name: user.name, username: user.username };
 
-
-    let records = airtable::Records { fields };
+    let records = vec![ airtable::Records { fields } ];
 
     let record = airtable::CreateTwitterUserRequest { records };
-
-    println!("Record = {:?}", &record);
 
     let full_url = format!("{}/Twitter%20User", *airtable::URL);
 
@@ -33,13 +29,10 @@ pub async fn create_user(user: twitter::TwitterUser) -> Result<(), reqwest::Erro
         .json(&record)
         .send()
         .await?
-        .text()
-        //.json::<airtable::CreateResponse>()
+        .json::<airtable::CreateResponse>()
         .await?;
 
-    println!("CreateResponse = {:?}", resp);
-
-    Ok(())
+    Ok(resp)
 }
 
 fn build_client() -> Result<reqwest::Client, reqwest::Error> {
