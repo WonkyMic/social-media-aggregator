@@ -12,9 +12,7 @@ mod services;
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
     println!("-- Application Start --");
 
-    // Twitter
-    let twitter_profile = services::twitter_service::get_user_content("ThisWeekInRust")
-        .await.expect("Error attempting to generate Twitter proflie.");
+    services::create("ThisWeekInRust", "twitter").await;
     
     Ok(())
 }

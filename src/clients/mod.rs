@@ -1,2 +1,2 @@
-pub mod airtable_client;
-pub mod twitter_client;
+pub mod airtable;
+pub mod twitter;
