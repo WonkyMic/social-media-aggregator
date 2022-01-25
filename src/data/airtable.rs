@@ -7,7 +7,7 @@ lazy_static! {
 }
 
 lazy_static! {
-    pub static ref URL: &'static str = "https://api.airtable.com/v0";
+    pub static ref URL: &'static str = dotenv!("AIRTABLE_URL");
 }
 
 #[derive(Debug, Deserialize)]
@@ -29,10 +29,10 @@ pub struct Fields {
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Records {
-    pub fields: Vec<Fields>
+    pub fields: Fields
 }
 
 #[derive(Debug, Serialize, Deserialize)] 
 pub struct CreateTwitterUserRequest { 
-    pub records: Records
+    pub records: Vec<Records>
 }
